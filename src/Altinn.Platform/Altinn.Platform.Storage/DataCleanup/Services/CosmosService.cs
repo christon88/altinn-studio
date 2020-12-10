@@ -272,7 +272,8 @@ namespace Altinn.Platform.Storage.DataCleanup.Services
 
             IQueryable<Instance> filter;
             Uri instanceCollectionUri = UriFactory.CreateDocumentCollectionUri(databaseId, instanceCollectionId);
-            filter = _client.CreateDocumentQuery<Instance>(instanceCollectionUri, feedOptions);
+            filter = _client.CreateDocumentQuery<Instance>(instanceCollectionUri, feedOptions)
+            .Where(i => !i.Status.IsArchived.IsDefined());
             InstanceList documentList = new InstanceList();
             try
             {
